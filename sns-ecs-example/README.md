@@ -70,11 +70,7 @@ Make note of this topic ARN as you will need it below.
 
 ### Step 5 - Create an Ingestor URL in Hatchet
 
-You will next create an ingestion endpoint which SNS can call. Navigate to your **Settings** tab in Hatchet, and scroll down to **SNS Integrations**. Click on **Create integration** and input the topic ARN that you created above.
-
-TODO - IMAGE
-
-You will see an ingestor URL which you will need below.
+You will next create an ingestion endpoint which SNS can call. Navigate to your **Settings** tab in Hatchet, and scroll down to **SNS Integrations**. Click on **Create integration** and input the topic ARN that you created above. You will see an ingestor URL to copy which you will need below.
 
 ### Step 6 - Create the SNS Subscription
 
@@ -93,4 +89,4 @@ Navigate to the AWS console and verify this subscription has been verified (in t
 
 Next, navigate to the SNS topic in the AWS console and post a new message to the topic. After posting this message, you should see it show up in Hatchet, and you should see a new workflow triggered in Hatchet. It should look something like the following:
 
-TODO
+<img width="1728" alt="Screen Shot 2024-03-07 at 6 52 55 PM" src="https://github.com/hatchet-dev/hatchet-infra-examples/assets/25448214/9bbc3ffb-fd14-4875-b58f-8e826c18532e">
