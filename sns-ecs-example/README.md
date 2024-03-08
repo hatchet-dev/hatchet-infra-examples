@@ -34,7 +34,8 @@ docker build --platform linux/amd64 -t sns-demo .
 After a few minutes, your image should be built, you can now call:
 
 ```sh
-docker tag sns-demo 1234567890.dkr.ecr.us-west-1.amazonaws.com/sns-demo:latest # note: replace with your desired image
+docker tag sns-demo <your-repository-url>:latest # note: replace with your image URL
+docker push <your-repository-url>:latest # note: replace with your image URL
 ```
 
 Copy this value, as you will need it in the next step.

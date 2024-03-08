@@ -5,7 +5,7 @@ RUN npm install -g pnpm typescript
 
 COPY package.json pnpm-lock.yaml* ./
 RUN pnpm install
-COPY . .
+COPY index.ts .
 
 RUN npx tsc index.ts
 
