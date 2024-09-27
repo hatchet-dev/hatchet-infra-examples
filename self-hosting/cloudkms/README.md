@@ -1,6 +1,6 @@
 # Configuring CloudKMS with Hatchet
 
-By default, Hatchet uses public/private keysets for encryption which are generated from a single master key. These keysets can alternatively be generated from CloudKMS via envelope encryption.
+By default, Hatchet uses public/private keysets for JWT generation which are generated from a single master key, along with a key for sensitive data encryption. These keysets can alternatively be generated from CloudKMS key.
 
 This Terraform modules sets up a CloudKMS keyring and key and creates a service account for Hatchet with permissions to use that key for encryption and decryption.
 
