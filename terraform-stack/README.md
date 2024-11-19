@@ -81,8 +81,8 @@ terraform apply
 cd ../../
 ```
 
-### Deploy the Stack
 and finally
+### Deploy the Stack
 
 ```bash
 cd deploy/benchmarks
@@ -119,3 +119,8 @@ view the logs from a pod (replace the name of the pod)
  kubectl logs hatchet-engine-fbcfdd967-gk7hk -n benchmarks
  ```
 
+describe a pod
+
+```bash
+kubectl describe pod hatchet-engine-7578cb58cd-d6w2c -n benchmarks
+```
