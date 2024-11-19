@@ -1,0 +1,5 @@
+apiVersion: v2
+name: workers
+description: A Helm chart for deploying workers to run against a Hatchet stack
+type: application
+version: 0.6.8

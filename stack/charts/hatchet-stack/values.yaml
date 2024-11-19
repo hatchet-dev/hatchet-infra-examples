@@ -1,0 +1,163 @@
+api:
+  enabled: true
+  replicaCount: 2
+  image:
+    repository: "ghcr.io/hatchet-dev/hatchet/hatchet-api"
+    tag: "v0.50.4"
+    pullPolicy: "Always"
+  migrationJob:
+    image:
+      repository: "ghcr.io/hatchet-dev/hatchet/hatchet-migrate"
+  serviceAccount:
+    create: true
+    name: hatchet-api
+  env:
+    SERVER_AUTH_COOKIE_DOMAIN: "localhost:8080"
+    SERVER_URL: "http://localhost:8080"
+    SERVER_AUTH_COOKIE_INSECURE: "t"
+    SERVER_AUTH_SET_EMAIL_VERIFIED: "t"
+    SERVER_LOGGER_LEVEL: "warn"
+    SERVER_LOGGER_FORMAT: "console"
+    DATABASE_LOGGER_LEVEL: "warn"
+    DATABASE_LOGGER_FORMAT: "console"
+    SERVER_AUTH_GOOGLE_ENABLED: "f"
+    SERVER_AUTH_BASIC_AUTH_ENABLED: "t"
+    # DATABASE_URL: "postgres://hatchet:hatchet@10.219.0.3:5432/hatchet?sslmode=disable"
+    # DATABASE_POSTGRES_HOST: "10.219.0.3"
+    DATABASE_POSTGRES_PORT: "5432"
+    DATABASE_POSTGRES_USERNAME: "hatchet"
+    DATABASE_POSTGRES_PASSWORD: "hatchet"
+    DATABASE_POSTGRES_DB_NAME: "hatchet"
+    DATABASE_POSTGRES_SSL_MODE: "disable"
+    SERVER_TASKQUEUE_RABBITMQ_URL: "amqp://hatchet:hatchet@hatchet-stack-rabbitmq:5672/"
+    SERVER_GRPC_BROADCAST_ADDRESS: "localhost:7070"
+  ingress:
+    enabled: false
+  health:
+    enabled: true
+    spec:
+      livenessProbe:
+        httpGet:
+          path: /api/live
+          port: 8080
+        periodSeconds: 5
+        initialDelaySeconds: 60
+      readinessProbe:
+        httpGet:
+          path: /api/ready
+          port: 8080
+        periodSeconds: 5
+        initialDelaySeconds: 20
+
+engine:
+  enabled: true
+  nameOverride: hatchet-engine
+  fullnameOverride: hatchet-engine
+  replicaCount: 1
+  image:
+    repository: "ghcr.io/hatchet-dev/hatchet/hatchet-engine"
+    tag: "v0.50.4"
+    pullPolicy: "Always"
+  migrationJob:
+    enabled: false
+  setupJob:
+    enabled: false
+  service:
+    externalPort: 7070
+    internalPort: 7070
+  commandline:
+    command: ["/hatchet/hatchet-engine"]
+  deployment:
+    annotations:
+      app.kubernetes.io/name: hatchet-engine
+  serviceAccount:
+    create: true
+    name: hatchet-engine
+  env:
+    SERVER_AUTH_COOKIE_DOMAIN: "localhost:8080"
+    SERVER_URL: "http://localhost:8080"
+    SERVER_AUTH_COOKIE_INSECURE: "t"
+    SERVER_AUTH_SET_EMAIL_VERIFIED: "t"
+    SERVER_LOGGER_LEVEL: "warn"
+    SERVER_LOGGER_FORMAT: "console"
+    DATABASE_LOGGER_LEVEL: "warn"
+    DATABASE_LOGGER_FORMAT: "console"
+    SERVER_AUTH_GOOGLE_ENABLED: "f"
+    SERVER_AUTH_BASIC_AUTH_ENABLED: "t"
+    # DATABASE_URL: "postgres://hatchet:hatchet@10.219.0.3:5432/hatchet?sslmode=disable"
+    # DATABASE_POSTGRES_HOST: "10.219.0.3"
+    DATABASE_POSTGRES_PORT: "5432"
+    DATABASE_POSTGRES_USERNAME: "hatchet"
+    DATABASE_POSTGRES_PASSWORD: "hatchet"
+    DATABASE_POSTGRES_DB_NAME: "hatchet"
+    DATABASE_POSTGRES_SSL_MODE: "disable"
+    SERVER_TASKQUEUE_RABBITMQ_URL: "amqp://hatchet:hatchet@hatchet-stack-rabbitmq:5672/"
+    SERVER_GRPC_BIND_ADDRESS: "0.0.0.0"
+    SERVER_GRPC_INSECURE: "true"
+    SERVER_GRPC_BROADCAST_ADDRESS: "localhost:7070"
+
+    SERVER_FLUSH_PERIOD_MILLISECONDS: 20
+    SERVER_FLUSH_ITEMS_THRESHOLD: 100
+    SERVER_WORKFLOWRUNBUFFER_FLUSH_PERIOD_MILLISECONDS: 20
+    SERVER_WORKFLOWRUNBUFFER_FLUSH_ITEMS_THRESHOLD: 100
+    SERVER_EVENTBUFFER_FLUSH_PERIOD_MILLISECONDS: 20
+    SERVER_EVENTBUFFER_FLUSH_ITEMS_THRESHOLD: 100
+    SERVER_RELEASESEMAPHOREBUFFER_FLUSH_PERIOD_MILLISECONDS: 20
+    SERVER_RELEASESEMAPHOREBUFFER_FLUSH_ITEMS_THRESHOLD: 5
+    SERVER_QUEUESTEPRUNBUFFER_FLUSH_PERIOD_MILLISECONDS: 10
+    SERVER_QUEUESTEPRUNBUFFER_FLUSH_ITEMS_THRESHOLD: 5
+     
+     
+  ingress:
+    enabled: false
+  health:
+    enabled: true
+    spec:
+      livenessProbe:
+        httpGet:
+          path: /live
+          port: 8733
+        periodSeconds: 5
+        initialDelaySeconds: 60
+      readinessProbe:
+        httpGet:
+          path: /ready
+          port: 8733
+        periodSeconds: 5
+        initialDelaySeconds: 20
+
+frontend:
+  enabled: true
+  image:
+    repository: "ghcr.io/hatchet-dev/hatchet/hatchet-frontend"
+    tag: "v0.50.4"
+    pullPolicy: "Always"
+  service:
+    externalPort: 8080
+    internalPort: 80
+  ingress:
+    enabled: false
+
+rabbitmq:
+  enabled: true
+  auth:
+    username: "hatchet"
+    password: "hatchet"
+  
+
+caddy:
+  enabled: false
+
+workers:
+  env:
+    HATCHET_CLIENT_HOST_PORT: "hatchet-engine:7070"
+    HATCHET_CLIENT_TLS_STRATEGY: "none"
+  envFrom:
+    - secretRef:
+        name: "hatchet-client-config"    
+  command: ["/emitter"]  
+  # command: ["/bin/bash", "-c", "echo 'hello' ;  trap : TERM INT; sleep infinity & wait"]
+image:
+  repository: "ghcr.io/hatchet-dev/hatchet/hatchet-api"
+  tag: "v0.50.4"
+  pullPolicy: "Always"
