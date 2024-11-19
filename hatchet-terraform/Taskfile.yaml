@@ -1,0 +1,16 @@
+version: "3"
+
+tasks:
+  gcp-login:
+    cmds:
+      - gcloud auth application-default login
+    silent: true
+  gen-hatchet:
+    cmds:
+      - gcloud container clusters get-credentials hatchet-cluster --region $TF_VAR_region --project $TF_VAR_project
+  use-hatchet:
+    cmds:
+      - kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.5.5/cert-manager.crds.yaml
+      - kubectl get crd clusterissuers.cert-manager.io
+      - kubectl config use-context gke_hatchet-$TF_VAR_project_$TF_VAR_REGION_hatchet-cluster
+
