@@ -1,4 +1,4 @@
-# Terraform Quickstart for deploying Hatchet on your own Infra
+# Terraform Quickstart for deploying Hatchet in your own GCP Cloud
 
 ## Google Cloud Project
 
@@ -24,6 +24,12 @@ This example deploys into google cloud.
 ## Cloud SQL
 
 This provisions a postgres cloud SQL DB defaulting to a db-custom-16-15360 (16 core DB with 15360 MB memory)
+
+Modify 
+```
+TF_VAR_database_instance_type
+```
+to change this instance type.
 
 ## Terraform 
 
