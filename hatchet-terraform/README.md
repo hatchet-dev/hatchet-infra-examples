@@ -80,17 +80,6 @@ cd ../
 ```
 
 
-
-
-
-You may need to run
-
-```bash
-gcloud services enable sqladmin.googleapis.com --project=$TF_VAR_project
-```
-
-depending on what services you have enabled for your account.
-
 ```bash
 cd kube-mgmt
 terraform init
