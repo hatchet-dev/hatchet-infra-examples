@@ -1,4 +1,4 @@
-# Terraform Quickstart for deploying Hatchet in your own GCP Cloud
+# Terraform quickstart for deploying Hatchet in your own GCP cloud
 
 ## Google Cloud Project
 
@@ -135,7 +135,7 @@ And log in with the default demo user (change for production)
 > User: admin@example.com
 > Pass: Admin123!!
 
-<!-- ### Run a Workflow
+### Run a Workflow
 
 A default worker will be running and workflows will have been executed. You can view them on the workflow run page and the Workers page.
 
@@ -150,12 +150,18 @@ Select the
 ha-loadtester-v3
 ```
 
-Workflow and click on the most recent run. In the top right corner click "Replay" to replay that workflow.
+Workflow and click "Trigger Worfklow" 
 
-Navigate to
+Leaving everything blank hit "Trigger Workflow"
+
+This will spawn 10 children and should complete. 
+
+Navigate to 
 http://localhost:8080/workflow-runs?tenant=707d0855-80ab-4e1f-a156-f1c4546cbf52&pageIndex=0&pageSize=50
 
-and you will see the worfklows being run. -->
+and you should be able to see these workflows that have just been run.
+
+
 
 
 ### Troubleshooting
