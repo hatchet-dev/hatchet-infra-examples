@@ -43,11 +43,6 @@ resource "google_project_service" "cloudasset" {
   service = "cloudasset.googleapis.com"
 }
 
-resource "google_project_service" "cloudkms" {
-  project = var.gcp_project_id
-  service = "cloudkms.googleapis.com"
-}
-
 resource "google_project_service" "policyanalyzer" {
   project = var.gcp_project_id
   service = "policyanalyzer.googleapis.com"
