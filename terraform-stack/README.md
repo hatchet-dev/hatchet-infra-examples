@@ -24,9 +24,9 @@ This provisions a postgres cloud SQL DB defaulting to a db-custom-16-15360 (16 c
 
 ### Setup
 
-You will need terraform installed locally. (https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
-You will need kubectl installed locally. (https://kubernetes.io/docs/tasks/tools/)
-You will need task installed locally (https://taskfile.dev/installation/)
+- You will need terraform installed locally. (https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
+- You will need kubectl installed locally. (https://kubernetes.io/docs/tasks/tools/)
+- You will need task installed locally (https://taskfile.dev/installation/)
 
 ### Login to GCP
 
@@ -45,6 +45,7 @@ gcloud auth login
 
 to log in to your gcloud account in the terminal.
 
+Set up kubernetes
 ```bash
 task gen-benchmarks
 task use-benchmarks
