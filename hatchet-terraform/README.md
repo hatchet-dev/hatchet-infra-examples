@@ -151,6 +151,16 @@ http://localhost:8080/workflow-runs?tenant=707d0855-80ab-4e1f-a156-f1c4546cbf52&
 and you should be able to see these workflows that have just been run.
 
 
+### Notes
+
+  
+In a production deployment you may want to set
+
+```
+deletion_protection = true
+```
+
+wherever it is equal to false. At present this is on the database and the google_container_cluster. 
 
 
 ### Troubleshooting

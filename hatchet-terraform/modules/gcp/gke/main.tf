@@ -26,6 +26,9 @@ resource "google_container_cluster" "primary" {
   network    = var.vpc_name
   subnetwork = var.subnet_name
 
+  # probably want to change in a production deployment
+  deletion_protection = false
+
   network_policy {
     enabled  = true
     provider = "CALICO"
