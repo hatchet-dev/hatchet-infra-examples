@@ -1,0 +1,46 @@
+version: "3"
+
+tasks:
+  gcp-login:
+    cmds:
+      - gcloud auth application-default login
+      - gcloud auth login
+    silent: true
+  gen-k8s-creds:
+    cmds:
+      - gcloud container clusters get-credentials ${TF_VAR_env_name}-cluster --region $TF_VAR_region --project $TF_VAR_project
+  use-hatchet:
+    cmds:
+      - kubectl config use-context gke_hatchet-$TF_VAR_project_$TF_VAR_REGION_hatchet-cluster
+  provision-infra:
+    dir: ./infra
+    cmds:
+      - terraform init
+      - terraform apply
+  show-ips:
+    dir: ./infra
+    cmds:
+      - terraform output
+  provision-kube:
+    dir: ./kube
+    cmds:
+      - terraform init
+      - terraform apply
+  provision-hatchet:
+    dir: ./hatchet
+    cmds:
+      - terraform init
+      - terraform apply
+  destroy:
+    dir: ./infra
+    cmds:
+      - |
+        terraform state show module.cloudsql-shared.google_service_networking_connection.private_service_access >/dev/null 2>&1 && \
+        terraform state rm module.cloudsql-shared.google_service_networking_connection.private_service_access || true
+      - |
+        terraform state show module.gcp_services.google_project_service.compute >/dev/null 2>&1 && \
+        terraform state rm module.gcp_services.google_project_service.compute || true
+      - |
+        terraform state show google_sql_user.user >/dev/null 2>&1 && \
+        terraform state rm google_sql_user.user || true
+      - terraform destroy
