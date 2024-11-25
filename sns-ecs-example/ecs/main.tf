@@ -49,7 +49,7 @@ resource "aws_iam_role_policy_attachment" "ecs_task_execution_policy_attachment"
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
-# Define an ECS task definition
+# Define an ECS task definition with logging configuration
 resource "aws_ecs_task_definition" "hatchet_worker" {
   family                   = "hatchet"
   network_mode             = "awsvpc"
@@ -74,6 +74,15 @@ resource "aws_ecs_task_definition" "hatchet_worker" {
         }
       ]
 
+      # Add logging configuration
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          awslogs-group         = "/ecs/hatchet-worker"
+          awslogs-region        = var.aws_region
+          awslogs-stream-prefix = "ecs"
+        }
+      }
 
       # we don't need any port mappings as this is a private worker
       portMappings = []
@@ -95,4 +104,10 @@ resource "aws_ecs_service" "hatchet_worker" {
   }
 
   desired_count = 2
+}
+
+# CloudWatch Log Group for ECS task logs
+resource "aws_cloudwatch_log_group" "hatchet_worker_log_group" {
+  name              = "/ecs/hatchet-worker"
+  retention_in_days = 7
 }
